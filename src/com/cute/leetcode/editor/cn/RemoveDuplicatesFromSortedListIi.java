@@ -29,7 +29,22 @@ public class RemoveDuplicatesFromSortedListIi {
     }
 
     public static void main(String[] args) {
+        RemoveDuplicatesFromSortedListIi.ListNode node1 = new RemoveDuplicatesFromSortedListIi().new ListNode(1);
+        RemoveDuplicatesFromSortedListIi.ListNode node2 = new RemoveDuplicatesFromSortedListIi().new ListNode(1);
+//        RemoveDuplicatesFromSortedListIi.ListNode node3 = new RemoveDuplicatesFromSortedListIi().new ListNode(3);
+//        RemoveDuplicatesFromSortedListIi.ListNode node4 = new RemoveDuplicatesFromSortedListIi().new ListNode(3);
+//        RemoveDuplicatesFromSortedListIi.ListNode node5 = new RemoveDuplicatesFromSortedListIi().new ListNode(4);
+//        RemoveDuplicatesFromSortedListIi.ListNode node6 = new RemoveDuplicatesFromSortedListIi().new ListNode(4);
+//        RemoveDuplicatesFromSortedListIi.ListNode node7 = new RemoveDuplicatesFromSortedListIi().new ListNode(5);
+
+        node1.next = node2;
+//        node2.next = node3;
+//        node3.next = node4;
+//        node4.next = node5;
+//        node5.next = node6;
+//        node6.next = node7;
         Solution solution = new RemoveDuplicatesFromSortedListIi().new Solution();
+        solution.deleteDuplicates(node1);
     }
     //leetcode submit region begin(Prohibit modification and deletion)
 
@@ -43,22 +58,26 @@ public class RemoveDuplicatesFromSortedListIi {
      */
     class Solution {
         public ListNode deleteDuplicates(ListNode head) {
-            ListNode res = new ListNode(0);
-            ListNode temp = head;
-            res.next = temp;
-            if (null == head.next){
-                return res.next;
+            ListNode dummy = new ListNode(-1);
+            if (head == null || null == head.next) {
+                return head;
             }
-            ListNode last = head.next;
-            while (head.next != null) {
-                while (head.val == last.val) {
+            dummy.next = head;
+            ListNode first = dummy;
+            ListNode last = first.next;
+            while (last != null && last.next != null) {
+                if (first.next.val != last.next.val) {
+                    last = last.next;
+                    first = first.next;
+                } else {
+                    while (last.next != null && first.next.val == last.next.val){
+                        last = last.next;
+                    }
+                    first.next = last.next;
                     last = last.next;
                 }
-                head = last;
-
-                last = last.next;
             }
-            return res.next;
+            return dummy.next;
 
 
         }
