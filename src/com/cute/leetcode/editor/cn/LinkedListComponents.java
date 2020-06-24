@@ -37,24 +37,85 @@
 // Related Topics 链表
 
 package com.cute.leetcode.editor.cn;
+
+import java.util.HashMap;
+import java.util.HashSet;
+
 public class LinkedListComponents {
+
+
+    public class ListNode {
+        int val;
+        ListNode next;
+
+        ListNode(int x) {
+            val = x;
+        }
+    }
+
     public static void main(String[] args) {
+        ListNode node1 = new LinkedListComponents().new ListNode(3);
+        ListNode node2 = new LinkedListComponents().new ListNode(4);
+        ListNode node3 = new LinkedListComponents().new ListNode(0);
+        ListNode node4 = new LinkedListComponents().new ListNode(2);
+        ListNode node5 = new LinkedListComponents().new ListNode(1);
+        node1.next = node2;
+        node2.next = node3;
+        node3.next = node4;
+        node4.next = node5;
+        int[] G = new int[]{ 4};
         Solution solution = new LinkedListComponents().new Solution();
+        solution.numComponents(node1, G);
     }
     //leetcode submit region begin(Prohibit modification and deletion)
-/**
- * Definition for singly-linked list.
- * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode(int x) { val = x; }
- * }
- */
-class Solution {
-    public int numComponents(ListNode head, int[] G) {
 
+    /**
+     * Definition for singly-linked list.
+     * public class ListNode {
+     * int val;
+     * ListNode next;
+     * ListNode(int x) { val = x; }
+     * }
+     */
+    class Solution {
+        public int numComponents(ListNode head, int[] G) {
+            int n = 0;
+            if (head == null || G.length == 0) {
+                return n;
+            }
+            int h =  G.length;
+            HashSet<Integer> set = new HashSet<>();
+            for (int i = 0; i <  G.length; i++) {
+                set.add(G[i]);
+            }
+            //快慢指针
+//            ListNode slow = head;
+//            ListNode fast = head;
+//            while (slow != null && fast != null) {
+//                while (fast != null && set.contains(fast.val)) {
+//                    fast = fast.next;
+//                }
+//                if (set.contains(slow.val)){
+//                    n += 1;
+//                }
+//                if (fast == null){
+//                    return n;
+//                }
+//                slow = fast.next;
+//                fast = fast.next;
+//            }
+            ListNode cur = head;
+            while (cur != null) {
+                if (set.contains(cur.val) &&
+                        (cur.next == null || !set.contains(cur.next.val)))
+                    n++;
+                cur = cur.next;
+            }
+
+            return n;
+
+        }
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
