@@ -42,8 +42,6 @@ public class DesignLinkedList {
     public static void main(String[] args) {
         MyLinkedList my = new DesignLinkedList().new MyLinkedList();
         my.addAtHead(1);
-        System.out.println(my.val);
-        System.out.println(my.next.val);
 
 
     }
