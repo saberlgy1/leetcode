@@ -57,7 +57,6 @@ public class IntersectionOfTwoLinkedListsLcci {
                 }else{
                     b = b.next;
                 }
-
             }
             return a;
         }
