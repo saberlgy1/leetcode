@@ -25,6 +25,8 @@ import java.util.*;
 public class SubsetsIi {
     public static void main(String[] args) {
         Solution solution = new SubsetsIi().new Solution();
+        int[] nums  = new int[]{1,2,2,2,2};
+        solution.subsetsWithDup(nums);
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -41,7 +43,7 @@ public class SubsetsIi {
             // 这些子集不加入结果集则达到了去重的目的，省略了set去重的部分，减少了n的运算
 
             //M1：位运算
-            Set<List<Integer>> set = new HashSet<>();
+            /*Set<List<Integer>> set = new HashSet<>();
             Arrays.sort(nums);
             List<List<Integer>> res = new ArrayList<>();
             for (int i = 0; i < 1 << nums.length; i++) {
@@ -56,32 +58,42 @@ public class SubsetsIi {
             }
             res.addAll(set);
 
-            return res;
-           /* //M2：前序遍历 深度优先 回溯算法
-            Arrays.sort(nums);
-            dfs(0, nums);
-            for (List<Integer> list: set
-            ) {
-                res.add(list);
-            }
             return res;*/
+            //M2：前序遍历 深度优先 回溯算法
+            Arrays.sort(nums);
+            dfs( nums,0, new ArrayList<>(),res);
+
+            return res;
 
         }
 
-        public void dfs(int n, int[] nums) {
-            if(n > 0 ){
+        /* public void dfs(int n, int[] nums) {
+             if (n == nums.length) {
+                 List<Integer> t = new ArrayList<>(list);
+                 set.add(t);
+                 return;
+             }
+             list.add(nums[n]);
+             dfs(n + 1, nums);
+             list.remove(list.size() - 1);
+             dfs(n + 1, nums);
+         }*/
+        //使用dfs内部去重，优化set转list的时间
+        public void dfs(int[] nums, int start, ArrayList<Integer> temp, List<List<Integer>> ans) {
+            ans.add(new ArrayList<>(temp));
+            for (int i = start; i < nums.length; i++) {
+                //和上个数字相等就跳过
+                if (i > start && nums[i] == nums[i - 1]) {
+                    continue;
+                }
+                temp.add(nums[i]);
+                dfs(nums, i + 1, temp, ans);
+                //自动更新temp保证从头开始的temp为空
+                temp.remove(temp.size() - 1);
+            }
 
-            }
-            if (n == nums.length) {
-                List<Integer> t = new ArrayList<>(list);
-                set.add(t);
-                return;
-            }
-            list.add(nums[n]);
-            dfs(n + 1, nums);
-            list.remove(list.size() - 1);
-            dfs(n + 1, nums);
         }
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
