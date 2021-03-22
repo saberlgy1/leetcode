@@ -67,7 +67,7 @@ public class Solution {
     public int hammingWeight(int n) {
         //常量 T O(32)  S O(1)
 //        int ret = 0;
-//        for (int i = 0 ; i < 32; i++){
+//        for (int i = 0 ; i < 32; i++)sssss{
 //            if ((n & (1 << i))!= 0){
 //                ret +=1;
 //            }
