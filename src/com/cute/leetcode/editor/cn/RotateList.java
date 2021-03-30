@@ -22,6 +22,8 @@
 
 package com.cute.leetcode.editor.cn;
 
+import java.util.List;
+
 public class RotateList {
     class ListNode {
         int val;
@@ -47,7 +49,7 @@ public class RotateList {
      */
     class Solution {
         public ListNode rotateRight(ListNode head, int k) {
-            if (head == null) {
+            /*if (head == null) {
                 return null;
             }
             ListNode first = head;
@@ -63,6 +65,27 @@ public class RotateList {
                 first = first.next;
                 temp = temp.next;
 
+            }
+            temp.next = null;
+            return first;*/
+            //每日一题重新做
+            if (head == null){
+                return  null;
+            }
+            int n = 1;
+            ListNode temp = head;
+            ListNode first = head;
+            while (temp.next != null){
+                temp = temp.next;
+                n++;
+            }
+            //最终移动多少 ，移动节点数n次= 恢复鸳鸯
+            int movation = k % n;
+            //尾节点连接到头节点
+            temp.next = first;
+            for (int i = 0; i < n -  movation; i++) {
+                first = first.next;
+                temp = temp.next;
             }
             temp.next = null;
             return first;
