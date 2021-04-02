@@ -53,8 +53,7 @@ public class VolumeOfHistogramLcci {
             while (i < n) {
                 if (height[i] <= stack.peek()) {
                     stack.push(height[i]);
-                }
-                if (height[i] > stack.peek()) {
+                } else {
                     int temp = 0, index = 0;
                     //按层运算
                     if (height[i] < max) {
@@ -67,8 +66,7 @@ public class VolumeOfHistogramLcci {
                             temp = height[i];
                             stack.push(temp);
                         }
-                    }
-                    if (height[i] >= max) {
+                    }else {
                         if (stack.peek() > max) {
                             max = height[i];
                         } else {
