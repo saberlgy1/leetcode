@@ -64,7 +64,8 @@ public class SearchInRotatedSortedArrayIi {
     class Solution {
         public boolean search(int[] nums, int target) {
 
-            int m = nums.length, r = m - 1, l = 0;
+            //写了半天二分 还是O(n),因为又重复元素
+/*            int m = nums.length, r = m - 1, l = 0;
             //相同元素段内旋转需要恢复二分性，也就是将末尾元素去掉
 
            while (l < r && nums[0] == nums[r]){
@@ -83,7 +84,18 @@ public class SearchInRotatedSortedArrayIi {
                 return containsT(nums, target, 0, k);
             }
 
-            return containsT(nums, target, k + 1, r);
+            return containsT(nums, target, k + 1, r);*/
+            //直接顺序查找
+            int m = nums.length;
+            for (int i = 0; i < m ; i ++){
+                if (nums[i] == target){
+                    return true;
+                }
+/*                if((nums[i] < target) && (i + 1 < m) && (nums[i] > nums[i+1]) ){
+                    return false;
+                }*/
+            }
+            return false;
         }
 
 
