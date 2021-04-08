@@ -29,7 +29,7 @@ public class Permutations {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public List<List<Integer>> permute(int[] nums) {
-            //无需排序，无重复直接深度优先遍历就可以
+          /*  //无需排序，无重复直接深度优先遍历就可以
             List<List<Integer>> res = new ArrayList<>();
             List<Integer> ans = new ArrayList<>();
             for (int num : nums) {
@@ -51,8 +51,30 @@ public class Permutations {
             }
 
 
+        }*/
+            List<List<Integer>> res = new ArrayList<>();
+            List<Integer> ans = new ArrayList<>();
+            for (int num : nums
+            ) {
+                ans.add(num);
+            }
+            int first = 0;
+            backTrack(nums, ans, res, first);
+            return res;
+        }
+        private void backTrack(int[] nums, List<Integer> ans, List<List<Integer>> res, int first){
+            if (first == nums.length){
+                res.add(new ArrayList<>(ans));
+            }
+            for (int i = first; i < nums.length; i++){
+                Collections.swap(ans,first,i);
+                backTrack(nums, ans,res,i+1);
+                Collections.swap(ans,first,i);
+
+            }
         }
     }
+
 //leetcode submit region end(Prohibit modification and deletion)
 
-}
+    }
