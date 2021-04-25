@@ -69,11 +69,11 @@ public class LargestDivisibleSubset {
             //dp[i] = dp[i-1] + nums[i] % res.get(res.length() - 1) == 0 ? 1 : 0;
             //res.add(nums[i]);
             int[] dp = new int[nums.length];
-           // Arrays.fill(dp,1);
-            int maxSize = 1,maxVal = nums[0];
+            Arrays.fill(dp,1);
+            int maxSize = 1,maxVal = dp[0];
             //确认最大子集数量dp方程
-            for (int i = 0; i < nums.length; i++) {
-                for (int j = 0; j <= i; j++){
+            for (int i = 1; i < nums.length; i++) {
+                for (int j = 0; j < i; j++){
                     if (nums[i] % nums[j] == 0){
                         dp[i] =  Math.max(dp[i], dp[j] + 1);
                     }
