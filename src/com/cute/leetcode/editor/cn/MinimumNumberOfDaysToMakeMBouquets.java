@@ -81,30 +81,35 @@ public class MinimumNumberOfDaysToMakeMBouquets {
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
         public int minDays(int[] bloomDay, int m, int k) {
+            //O(n + n+ nlgn)
             //corner case
             if (bloomDay.length < m * k) {
                 return -1;
             }
             //上边界 是数组最大值
             //下边界是数组最小值
-            int min = Arrays.stream(bloomDay).min().getAsInt();
+            //int min = Arrays.stream(bloomDay).min().getAsInt();
+            //优化1min从1开始即可
+            int min = 1;
             int max = Arrays.stream(bloomDay).max().getAsInt();
             int mid = max - (max - min + 1) / 2;
             //二分查找判断是否满足
             while (min < max) {
                 mid = max - (max - min + 1) / 2;
                 int count = 0;
-                boolean[] merged = new boolean[bloomDay.length];
+                //优化3 不实用额外空间记录，直接算即可
+                /*boolean[] merged = new boolean[bloomDay.length];
                 for (int i = 0; i < bloomDay.length; i++
                 ) {
                     //判断哪些花可以作为打包的花
                     if (bloomDay[i] <= mid) {
                         merged[i] = true;
                     }
-                }
+                }*/
                 //判断是否满足k朵花连续切数量足够打包
                 //递归调用即可
-                if (dfs(m, count, k, merged, 0, k)) {
+                //if (dfs(m, count, k, merged, 0, k))
+                if (dfs(m, k, bloomDay,mid)){
                     max = mid;
                 } else {
                     min = mid + 1;
@@ -114,8 +119,9 @@ public class MinimumNumberOfDaysToMakeMBouquets {
 
         }
 
-        private boolean dfs(int m, int count, int k, boolean[] merged, int index, int temp) {
-            if (count >= m) {
+        private boolean dfs(int m,  int k, int[] bloomDay,int days) {
+            //优化2 dfs可以不用递归
+            /*if (count >= m) {
                 return true;
             }
             if (index > merged.length) {
@@ -132,7 +138,22 @@ public class MinimumNumberOfDaysToMakeMBouquets {
             }
 
             index++;
-            return dfs(m, count, k, merged, index, temp);
+            return dfs(m, count, k, merged, index, temp);*/
+            int bouquets = 0;
+            int flowers = 0;
+            int length = bloomDay.length;
+            for (int i = 0; i < length && bouquets < m; i++) {
+                if (bloomDay[i] <= days) {
+                    flowers++;
+                    if (flowers == k) {
+                        bouquets++;
+                        flowers = 0;
+                    }
+                } else {
+                    flowers = 0;
+                }
+            }
+            return bouquets >= m;
 
 
         }
