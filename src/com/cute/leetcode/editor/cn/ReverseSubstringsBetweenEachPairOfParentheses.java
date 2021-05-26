@@ -44,6 +44,8 @@
 
 package com.cute.leetcode.editor.cn;
 
+import java.util.Deque;
+import java.util.LinkedList;
 import java.util.Stack;
 
 public class ReverseSubstringsBetweenEachPairOfParentheses {
@@ -56,7 +58,7 @@ public class ReverseSubstringsBetweenEachPairOfParentheses {
     class Solution {
         public String reverseParentheses(String s) {
             //栈先进后出，然后括号匹配就依次出栈，然后再出栈全部完成后入栈，最后全部出栈即可
-            String res = "";
+            /*String res = "";
             char[] schar = s.toCharArray();
             Stack<Character> stack = new Stack<>();
             for (int i = 0; i < s.length(); i++){
@@ -80,9 +82,35 @@ public class ReverseSubstringsBetweenEachPairOfParentheses {
                 res=stack.peek()+res;
                 stack.pop();
             }
-            return res;
+            return res;*/
 
-
+            //优化方法和我想的一样，第一次判断括号位置和对应括号，然后依次反转即可
+            //双端队列
+            //记录一个数组判断对应括号
+            String res = "";
+            int[] pair = new int[s.length()];
+            Deque<Integer> stack = new LinkedList<Integer>();
+            for (int i = 0; i < pair.length; i++) {
+                if (s.charAt(i) == '(') {
+                    stack.push(i);
+                } else if (s.charAt(i) == ')') {
+                    int j = stack.pop();
+                    pair[i] = j;
+                    pair[j] = i;
+                }
+            }
+            StringBuffer sb = new StringBuffer();
+            int index = 0, step = 1;
+            while (index < s.length()) {
+                if (s.charAt(index) == '(' || s.charAt(index) == ')') {
+                    index = pair[index];
+                    step = -step;
+                } else {
+                    sb.append(s.charAt(index));
+                }
+                index += step;
+            }
+            return sb.toString();
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
