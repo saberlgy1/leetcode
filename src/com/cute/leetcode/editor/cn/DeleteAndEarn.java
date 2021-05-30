@@ -122,22 +122,20 @@ public class DeleteAndEarn {
             return ans;
         }
 
-
+        private int rob(List<Integer> nums) {
+            int size = nums.size();
+            if (size == 1) {
+                return nums.get(0);
+            }
+            int first = nums.get(0), second = Math.max(nums.get(0), nums.get(1));
+            for (int i = 2; i < size; i++) {
+                int temp = second;
+                second = Math.max(first + nums.get(i), second);
+                first = temp;
+            }
+            return second;
+        }
     }
 
-    public int rob(List<Integer> nums) {
-        int size = nums.size();
-        if (size == 1) {
-            return nums.get(0);
-        }
-        int first = nums.get(0), second = Math.max(nums.get(0), nums.get(1));
-        for (int i = 2; i < size; i++) {
-            int temp = second;
-            second = Math.max(first + nums.get(i), second);
-            first = temp;
-        }
-        return second;
-    }
-}
 //leetcode submit region end(Prohibit modification and deletion)
-
+}
