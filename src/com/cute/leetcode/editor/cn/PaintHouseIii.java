@@ -71,16 +71,38 @@
 // 👍 150 👎 0
 
 package com.cute.leetcode.editor.cn;
+
+import com.sun.xml.internal.bind.v2.TODO;
+
 public class PaintHouseIii {
     public static void main(String[] args) {
         Solution solution = new PaintHouseIii().new Solution();
     }
+
     //leetcode submit region begin(Prohibit modification and deletion)
-class Solution {
-    public int minCost(int[] houses, int[][] cost, int m, int n, int target) {
+    class Solution {
+        //TODO 有点难
+        //思路一：动态规划
+        //三维的动态规划属实是超脱我的我理解范围了
+        //根据题解理解出来的几个思考步骤
+        //1、定义一个dp数组dp[i][j][k]，首先这一步我就没太想明白，但是看了一到题解通过递归解法解的感觉可以反向思考一下
+
+
+        //这个数组的定义是将前i个房子通过
+        /*public int minCost(int[] houses, int[][] cost, int m, int n, int target) {
             return 0;
+        }*/
+
+        //所以先写思路2
+        //思路二：递归
+        public int minCost(int[] houses, int[][] cost, int m, int n, int target) {
+            if (target <= 0 || target > m){
+                return -1;
+            }
+            return 0;
+        }
+
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
