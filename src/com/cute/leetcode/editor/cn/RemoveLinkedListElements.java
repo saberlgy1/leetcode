@@ -1,10 +1,10 @@
-//删除链表中等于给定值 val 的所有节点。 
+//删除链表中等于给定值 val 的所有节点。
 //
-// 示例: 
+// 示例:
 //
 // 输入: 1->2->6->3->4->5->6, val = 6
 //输出: 1->2->3->4->5
-// 
+//
 // Related Topics 链表
 
 package com.cute.leetcode.editor.cn;
@@ -33,22 +33,39 @@ public class RemoveLinkedListElements {
      * }
      */
     class Solution {
+        //        public ListNode removeElements(ListNode head, int val) {
+//            if (head == null) {
+//                return head;
+//            }
+//            ListNode dummy = new ListNode(Integer.MIN_VALUE);
+//            dummy.next = head;
+//            ListNode pre = dummy;
+//            while (pre.next != null) {
+//                if (pre.next.val != val) {
+//                    pre = pre.next;
+//                }else {
+//                    pre.next = pre.next.next;
+//                }
+//            }
+//            return  dummy.next;
+//        }
         public ListNode removeElements(ListNode head, int val) {
-            if (head == null) {
-                return head;
-            }
             ListNode dummy = new ListNode(Integer.MIN_VALUE);
             dummy.next = head;
             ListNode pre = dummy;
-            while (pre.next != null) {
-                if (pre.next.val != val) {
+            ListNode last = dummy.next;
+            while (last != null){
+                if (last.val == val){
+                    last = last.next;
+                    pre.next = last;
+                }else{
+                    last = last.next;
                     pre = pre.next;
-                }else {
-                    pre.next = pre.next.next;
                 }
             }
-            return  dummy.next;
+            return dummy.next;
         }
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
