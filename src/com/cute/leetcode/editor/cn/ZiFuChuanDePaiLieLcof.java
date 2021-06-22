@@ -85,14 +85,7 @@ public class ZiFuChuanDePaiLieLcof {
             ) {
                 map.put(String.valueOf(c), map.getOrDefault(String.valueOf(c), 0) + 1);
             }
-            for (String init : map.keySet()
-            ) {
-                if (map.get(init) != 0) {
-                    map.put(init, map.get(init) - 1);
-                    arrangeS(s, map, init);
-                    map.put(init, map.get(init) + 1);
-                }
-            }
+            arrangeS(s,map,"");
             return set.toArray(new String[0]);
         }
 
@@ -106,7 +99,7 @@ public class ZiFuChuanDePaiLieLcof {
                 String str=init;
                 if (map.get(temp) != 0) {
                     map.put(temp, map.get(temp) - 1);
-                    arrangeS(s, map, str += temp);
+                    arrangeS(s, map, str + temp);
                     map.put(temp, map.get(temp) + 1);
                 }
             }
