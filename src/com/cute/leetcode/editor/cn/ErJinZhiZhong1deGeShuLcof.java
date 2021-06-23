@@ -91,7 +91,7 @@ public class ErJinZhiZhong1deGeShuLcof {
             return ret;
         }*/
         //思路五：javaInteger类库实现
-        public int hammingWeight(int i) {
+        /*public int hammingWeight(int i) {
             // HD, Figure 5-2
             i = i - ((i >>> 1) & 0x55555555);
             i = (i & 0x33333333) + ((i >>> 2) & 0x33333333);
@@ -99,6 +99,15 @@ public class ErJinZhiZhong1deGeShuLcof {
             i = i + (i >>> 8);
             i = i + (i >>> 16);
             return i & 0x3f;
+        }*/
+        //思路六：思路一的又一次优化
+        public int hammingWeight(int n) {
+            int res = 0;
+            while (n != 0) {
+                res += (n & 1);
+                n >>>= 1;
+            }
+            return res;
         }
 
 
