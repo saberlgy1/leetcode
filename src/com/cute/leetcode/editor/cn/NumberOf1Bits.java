@@ -67,7 +67,7 @@ public class Solution {
     public int hammingWeight(int n) {
         //常量 T O(32)  S O(1)
 //        int ret = 0;
-//        for (int i = 0 ; i < 32; i++)sssss{
+//        for (int i = 0 ; i < 32; i++){
 //            if ((n & (1 << i))!= 0){
 //                ret +=1;
 //            }
@@ -75,7 +75,7 @@ public class Solution {
 //        return ret;
 
         //优化
-        //n&()n -1 把最后一位的1 变成0；
+        //n&(n -1) 把最后一位的1 变成0；
         //
         int res = 0;
         while (n !=0){
