@@ -74,6 +74,7 @@ public class SlidingPuzzle {
         //移动需要保证不能越界
         //通过广度优先遍历移动并交换起点元素
         //打印移动后字符串，满足target解答即可
+        //存储交换节点后字符串以及0的坐标
         class Node {
             String s;
             int x,  y;
