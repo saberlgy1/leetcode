@@ -1,35 +1,35 @@
-//给你一个正整数数组 arr 。请你对 arr 执行一些操作（也可以不进行任何操作），使得数组满足以下条件： 
+//给你一个正整数数组 arr 。请你对 arr 执行一些操作（也可以不进行任何操作），使得数组满足以下条件：
 //
-// 
-// arr 中 第一个 元素必须为 1 。 
+//
+// arr 中 第一个 元素必须为 1 。
 // 任意相邻两个元素的差的绝对值 小于等于 1 ，也就是说，对于任意的 1 <= i < arr.length （数组下标从 0 开始），都满足 abs(ar
-//r[i] - arr[i - 1]) <= 1 。abs(x) 为 x 的绝对值。 
-// 
+//r[i] - arr[i - 1]) <= 1 。abs(x) 为 x 的绝对值。
 //
-// 你可以执行以下 2 种操作任意次： 
 //
-// 
-// 减小 arr 中任意元素的值，使其变为一个 更小的正整数 。 
-// 重新排列 arr 中的元素，你可以以任意顺序重新排列。 
-// 
+// 你可以执行以下 2 种操作任意次：
 //
-// 请你返回执行以上操作后，在满足前文所述的条件下，arr 中可能的 最大值 。 
 //
-// 
+// 减小 arr 中任意元素的值，使其变为一个 更小的正整数 。
+// 重新排列 arr 中的元素，你可以以任意顺序重新排列。
 //
-// 示例 1： 
 //
-// 
+// 请你返回执行以上操作后，在满足前文所述的条件下，arr 中可能的 最大值 。
+//
+//
+//
+// 示例 1：
+//
+//
 //输入：arr = [2,2,1,2,1]
 //输出：2
 //解释：
 //我们可以重新排列 arr 得到 [1,2,2,2,1] ，该数组满足所有条件。
 //arr 中最大元素为 2 。
-// 
 //
-// 示例 2： 
 //
-// 
+// 示例 2：
+//
+//
 //输入：arr = [100,1,1000]
 //输出：3
 //解释：
@@ -39,25 +39,25 @@
 //3. 将第三个元素减小为 3 。
 //现在 arr = [1,2,3] ，满足所有条件。
 //arr 中最大元素为 3 。
-// 
 //
-// 示例 3： 
 //
-// 
+// 示例 3：
+//
+//
 //输入：arr = [1,2,3,4,5]
 //输出：5
 //解释：数组已经满足所有条件，最大元素为 5 。
-// 
 //
-// 
 //
-// 提示： 
 //
-// 
-// 1 <= arr.length <= 105 
-// 1 <= arr[i] <= 109 
-// 
-// Related Topics 贪心 数组 排序 
+//
+// 提示：
+//
+//
+// 1 <= arr.length <= 105
+// 1 <= arr[i] <= 109
+//
+// Related Topics 贪心 数组 排序
 // 👍 22 👎 0
 
 package com.cute.leetcode.editor.cn;
@@ -102,7 +102,7 @@ public class MaximumElementAfterDecreasingAndRearranging {
         }*/
         //思路二：递归
         //思路一写着写着发现脑子抽了，想复杂了
-        public int maximumElementAfterDecrementingAndRearranging(int[] arr) {
+        /*public int maximumElementAfterDecrementingAndRearranging(int[] arr) {
             Arrays.sort(arr);
             int l = 0, r = Math.min(arr[arr.length - 1], arr.length);
 
@@ -111,6 +111,33 @@ public class MaximumElementAfterDecreasingAndRearranging {
                 arr[i] = arr[i - 1] > i ? i + 1 : Math.min(arr[i], arr[i - 1] + 1);
             }
             return arr[arr.length - 1];
+        }*/
+        //思路三：计数排序
+        //这道题居然可以优化到O(n)
+        //计数排序
+        //单调增的证明我就不给了，三叶大佬有非常复杂（看不懂）的证明过程，
+        //不过按照前两个题解即可分析出，我们是通过将大元素补充到缺失元素中
+        //这里的缺失元素指（数组中index位置不存在index+1的元素，取出后面较大元素替换当前元素）
+        //我们定义一个cnt数组，负责统计每个位置的元素数量，也就是对应index位置为index+1的元素数量
+        //然后再次遍历cnt数组，当当前未知不存在元素的时候，需要从后续元素补齐
+        //此时我们可以通过count来统计确实元素的数量，然后每当存在后续较大元素的时候，取出较大元素数量-1的较大元素补齐缺失元素
+        //最后丢失的区间，也就是count即为无法补齐的元素，也就是说此时数组长度-确实数量即为我们所求结果
+        public int maximumElementAfterDecrementingAndRearranging(int[] arr) {
+            int[] cnt = new int[arr.length + 1];
+            for (int num : arr) {
+                cnt[Math.min(num, arr.length)]++;
+            }
+            int count = 0;
+            for (int i = 1; i <= arr.length; i++) {
+                //确实当前元素
+               if (cnt[i]==0){
+                   count++;
+               }else{
+                   //多余的较大元素补充缺失元素
+                   count -= Math.min(cnt[i]-1,count);
+               }
+            }
+            return arr.length-count;
         }
 
 
