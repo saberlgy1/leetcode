@@ -1,4 +1,4 @@
-//给定一个链表，每个节点包含一个额外增加的随机指针，该指针可以指向链表中的任何节点或空节点。 
+//给定一个链表，每个节点包含一个额外增加的随机指针，该指针可以指向链表中的任何节点或空节点。
 //
 // 要求返回这个链表的 深拷贝。 
 //
@@ -69,6 +69,7 @@ public class CopyListWithRandomPointer {
             this.random = null;
         }
     }
+
     public static void main(String[] args) {
         Solution solution = new CopyListWithRandomPointer().new Solution();
     }
@@ -88,22 +89,53 @@ class Node {
 }
 */
 
-class Solution {
-    HashMap<Node,Node> visited = new HashMap<>();
-    public Node copyRandomList(Node head) {
-        if (head == null){
-            return null;
+    class Solution {
+        /*HashMap<Node,Node> visited = new HashMap<>();
+        public Node copyRandomList(Node head) {
+            if (head == null){
+                return null;
+            }
+            if (visited.containsKey(head)){
+                return visited.get(head);
+            }
+            Node node = new Node(head.val);
+            this.visited.put(head,node);
+            node.next = copyRandomList(head.next);
+            node.random = copyRandomList(head.random);
+            return  node;
+        }*/
+        //思路二：原地替换
+        public Node copyRandomList(Node head) {
+            if (head == null) {
+                return null;
+            }
+
+            Node root = new Node(-1);
+            root.next = head;
+            while (head!=null){
+                //在头节点后插入节点，并移动head指针
+                Node node = new Node(head.val);
+                node.next = head.next;
+                head.next = node;
+                head = node.next;
+            }
+            head = root.next;
+            while (head != null) {
+                if (head.random != null) {
+                    head.next.random = head.random.next;
+                }
+                head = head.next.next;
+            }
+            head = root.next;
+            Node ans = head.next;
+            while (head != null) {
+                Node tmp = head.next;
+                if (head.next != null) head.next = head.next.next;
+                head = tmp;
+            }
+            return ans;
         }
-        if (visited.containsKey(head)){
-            return visited.get(head);
-        }
-        Node node = new Node(head.val);
-        this.visited.put(head,node);
-        node.next = copyRandomList(head.next);
-        node.random = copyRandomList(head.random);
-        return  node;
     }
-}
 //leetcode submit region end(Prohibit modification and deletion)
 
 }
