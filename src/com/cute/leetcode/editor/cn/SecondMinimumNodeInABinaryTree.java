@@ -123,7 +123,7 @@ public class SecondMinimumNodeInABinaryTree {
         //利用本题二叉树性质剪枝
         //较大元素的子节点是不需要遍历的，所有我们留一个作为备份即可
         //也就是dfs可以不用两边都遍历
-        public int findSecondMinimumValue(TreeNode root) {
+        /*public int findSecondMinimumValue(TreeNode root) {
             //corner case
             if (root.left == null){
                 return -1;
@@ -156,7 +156,7 @@ public class SecondMinimumNodeInABinaryTree {
                 }
             }
             return -1;
-        }
+        }*/
 
         private void dfs(TreeNode root, PriorityQueue<Integer> queue) {
             if (root == null) {
@@ -191,6 +191,30 @@ public class SecondMinimumNodeInABinaryTree {
             if (root.right.val == root.val) {
                 dfs3(root.right, set);
             }
+        }
+        //三叶大佬的做法
+        //其实之前解题时里想到过这种思路
+        //但是还是没有抓住重点就没继续往下思考
+        //这种思路的依靠的条件有两个
+        //节点都是正数，保证了ans只有遇到正数时才会更新
+        //节点最小值向上传递，也就是保证了根结点的最小值
+        //这样的逻辑也就保证了ans只会在遇到了比最小值大的节点的时才会更新
+        //同时ans更新后不必再向下遍历
+        //剪枝的进一步优化-剪掉所有子节点
+        int ans = -1;
+        public int findSecondMinimumValue(TreeNode root) {
+            dfs(root, root.val);
+            return ans;
+        }
+        void dfs(TreeNode root, int cur) {
+            if (root == null) return ;
+            if (root.val != cur) {
+                if (ans == -1) ans = root.val;
+                else ans = Math.min(ans, root.val);
+                return ;
+            }
+            dfs(root.left, cur);
+            dfs(root.right, cur);
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
