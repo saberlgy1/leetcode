@@ -56,9 +56,9 @@ public class GrayCode {
             for (int i = 0; i < n; i++) {
                 for (int j = res.size() - 1; j >= 0; j--){
                     res.add(head + res.get(j));
-                    //逆序头位+1
-                    head <<= 1;
                 }
+                //逆序头位+1
+                head <<= 1;
             }
             return res;
         }
