@@ -55,18 +55,71 @@ public class WordLadder {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-//        //思路一：广度优先遍历
-//        //定义一个队列广度优先扫描，每一次都遍历所有队列元素，当遍历到结尾元素时，返回技术次数
+        //        //思路一：双向BFS
+//        //定义两个个队列广度优先扫描，每一次都遍历所有队列元素，当遍历到相同元素时，返回计数次数
 //        //通过map存入改变次数
-//        public int ladderLength(String beginWord, String endWord, List<String> wordList) {
-//            ArrayDeque<String> queue =new ArrayDeque<>();
-//            Map<String,Integer> map = new HashMap<>();
-//            queue.add(beginWord);
-//            while (queue.size()!=0){
-//                String temp = queue.poll();
-//
-//            }
-//        }
+        Set<String> set = new HashSet<>();
+
+        public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+            for (String word : wordList
+            ) {
+                set.add(word);
+            }
+            if (!set.contains(endWord)) {
+                return 0;
+            }
+            int ans = bfs(beginWord, endWord);
+            return ans == -1 ? 0 : ans + 1;
+        }
+
+        private int bfs(String begin, String end) {
+            Map<String, Integer> m1 = new HashMap<>();
+            Map<String, Integer> m2 = new HashMap<>();
+            Deque<String> d1 = new ArrayDeque<>();
+            Deque<String> d2 = new ArrayDeque<>();
+            m1.put(begin, 0);
+            d1.add(begin);
+            d2.add(end);
+            m2.put(end, 0);
+            while (!d1.isEmpty() && !d2.isEmpty()) {
+                //优先拓展较短队列
+                int ans = -1;
+                if (d1.size() <= d2.size()) {
+                    ans = update(d1, m1, m2);
+                } else {
+                    ans = update(d2, m2, m1);
+                }
+                if (ans != -1) return ans;
+            }
+            return -1;
+        }
+
+        private int update(Deque<String> q1, Map<String, Integer> m1, Map<String, Integer> m2) {
+            String temp = q1.poll();
+            int n = temp.length();
+            // 枚举替换原字符串的哪个字符 i
+            for (int i = 0; i < n; i++) {
+                // 枚举将 i 替换成哪个小写字母
+                for (int j = 0; j < 26; j++) {
+                    // 替换后的字符串
+                    String sub = temp.substring(0, i) + String.valueOf((char) ('a' + j)) + temp.substring(i + 1);
+                    if (set.contains(sub)) {
+                        // 如果该字符串在「当前方向」被记录过（拓展过），跳过即可
+                        if (m1.containsKey(sub)) continue;
+
+                        // 如果该字符串在「另一方向」出现过，说明找到了联通两个方向的最短路
+                        if (m2.containsKey(sub)) {
+                            return m1.get(temp) + 1 + m2.get(sub);
+                        } else {
+                            // 否则加入 deque 队列
+                            q1.addLast(sub);
+                            m1.put(sub, m1.get(temp) + 1);
+                        }
+                    }
+                }
+            }
+            return -1;
+        }
 
     }
 //leetcode submit region end(Prohibit modification and deletion)
