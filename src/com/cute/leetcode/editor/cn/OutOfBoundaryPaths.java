@@ -35,10 +35,13 @@
 
 package com.cute.leetcode.editor.cn;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class OutOfBoundaryPaths {
     public static void main(String[] args) {
         Solution solution = new OutOfBoundaryPaths().new Solution();
-        System.out.println(solution.findPaths(1, 3, 3, 0, 1));
+        System.out.println(solution.findPaths(2, 2, 2, 0, 0));
     }
 
     //leetcode submit region begin(Prohibit modification and deletion)
@@ -46,12 +49,12 @@ public class OutOfBoundaryPaths {
         //思路一：dfs +暴力递归
         //时间复杂度$4^{m}$
         //TLE了
-        int[][] dir = new int[][]{{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
-        int res = 0, max = 0, ex = 0, ey = 0;
+       /* int[][] dir = new int[][]{{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+        int res = 0, max = 0, ex = 0, ey = 0;*/
 
         /*public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
             //定义四个移动方向
-            int mod = (int) 1e10 + 7, x = startRow, y = startColumn, idx = 0;
+            int mod = (int) 1e9 + 7, x = startRow, y = startColumn, idx = 0;
             max = maxMove;
             ex = m;
             ey = n;
@@ -83,7 +86,7 @@ public class OutOfBoundaryPaths {
         //dp[0][x][y] = 1;其余情况dp[0][j][k] = 0;
         //dp[idx+1][j`][k`] = dp[idx][j-1][k] + dp[idx][j+1][k] + dp[idx][j][k-1] + dp[idx][j][k+1];
 
-        public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+        /*public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
             int[][] dirs = new int[][]{{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
             int x = startRow, y = startColumn, mod = (int) 1e9 + 7;
             int res = 0;
@@ -110,6 +113,44 @@ public class OutOfBoundaryPaths {
             }
             return res;
 
+        }*/
+        //思路三：记忆化存储的dfs
+        //原来记忆化是可以过的
+        //补充一下吧
+        int[][] dir = new int[][]{{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+        int res = 0, mod = (int) 1e9 + 7, max = 0, ex = 0, ey = 0;
+        Map<String, Integer> map = new HashMap<>();
+
+        public int findPaths(int m, int n, int maxMove, int startRow, int startColumn) {
+            //定义四个移动方向
+            int x = startRow, y = startColumn, idx = 0;
+            max = maxMove;
+            ex = m;
+            ey = n;
+            return dfs(x, y, idx) % mod;
+        }
+
+        public int dfs(int x, int y, int idx) {
+            String key = x + "," + y + "," + idx;
+            if (map.containsKey(key)) {
+                return map.get(key);
+            }
+            //出界情况
+            if (idx <= max && (x < 0 || x == ex || y < 0 || y == ey)) {
+                map.put(key, 1);
+                return 1;
+            }
+            //到达不了边界情况
+            if (idx > max) {
+                map.put(key, 0);
+                return 0;
+            }
+            int temp = idx, ans = 0;
+            for (int i = 0; i < 4; i++) {
+                ans = (ans + dfs(x + dir[i][0], y + dir[i][1], temp + 1)) % mod;
+            }
+            map.put(key, ans);
+            return ans;
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
