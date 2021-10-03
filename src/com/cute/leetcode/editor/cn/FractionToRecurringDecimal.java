@@ -55,7 +55,9 @@
 
 package com.cute.leetcode.editor.cn;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class FractionToRecurringDecimal {
@@ -71,34 +73,26 @@ public class FractionToRecurringDecimal {
         //然后判断小数位
         //如果是循环小数则直接拼接括号
         public String fractionToDecimal(int numerator, int denominator) {
-            StringBuilder INT = new StringBuilder();
-            int val = numerator / denominator;
-            INT.append(val);
-            double dec = (double) numerator / denominator;
-            if (dec == (int)dec){
-                return  INT.toString();
-            }
-            INT.append(".");
-
-            //先考虑非循环小数
-            //然后再考虑循环小数
-            Set<String> set = new HashSet<>();
-            StringBuilder POINT = new StringBuilder();
-            int rev = numerator % denominator;
-            boolean flag = false;
-            while (rev != 0) {
-                rev *= 10;
-                int temp = rev / denominator;
-                if (set.contains(temp + ":" + rev)) {
-                    POINT.append(")");
-                    flag = true;
-                    break;
+            long a = numerator, b = denominator;
+            if (a % b == 0) return String.valueOf(a / b);
+            StringBuilder sb = new StringBuilder();
+            if (a * b < 0) sb.append('-');
+            a = Math.abs(a);
+            b = Math.abs(b);
+            sb.append(String.valueOf(a / b) + ".");
+            a %= b;
+            Map<Long, Integer> map = new HashMap<>();
+            while (a != 0) {
+                map.put(a, sb.length());
+                a *= 10;
+                sb.append(a / b);
+                a %= b;
+                if (map.containsKey(a)) {
+                    int u = map.get(a);
+                    return String.format("%s(%s)", sb.substring(0, u), sb.substring(u));
                 }
-                set.add(temp + ":" + rev);
-                POINT.append(temp);
-                rev = rev % denominator;
             }
-            return INT.append(flag?"(":"").append(POINT).toString();
+            return sb.toString();
         }
     }
 //leetcode submit region end(Prohibit modification and deletion)
