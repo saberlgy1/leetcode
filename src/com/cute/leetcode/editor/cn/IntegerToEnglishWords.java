@@ -47,15 +47,15 @@ public class IntegerToEnglishWords {
     }
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        static String[] num2str_small = {
+         String[] num2str_small = {
                 "Zero",
                 "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten",
                 "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"
         };
-        static String[] num2str_medium = {
+         String[] num2str_medium = {
                 "", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"
         };
-        static String[] num2str_large = {
+         String[] num2str_large = {
                 "Billion", "Million", "Thousand", "",
         };
         String num2Str(int x) {
