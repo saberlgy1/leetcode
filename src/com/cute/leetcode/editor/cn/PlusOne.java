@@ -23,6 +23,7 @@
 package com.cute.leetcode.editor.cn;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PlusOne {
@@ -32,7 +33,7 @@ public class PlusOne {
 
     //leetcode submit region begin(Prohibit modification and deletion)
     class Solution {
-        public int[] plusOne(int[] digits) {
+        /*public int[] plusOne(int[] digits) {
             int flag = 0;
             int temp = 1;
             int len = digits.length;
@@ -57,7 +58,25 @@ public class PlusOne {
                  return array;
             }
             return  digits;
+        }*/
+        public int[] plusOne(int[] digits) {
+            boolean flag = true;
+            int n = digits.length - 1;
+            int[] res = new int[n + 2];
+            while (n >= 0) {
+                int val = digits[n];
+                if (flag) {
+                    res[n + 1] = val == 9 ? 0 : val + 1;
+                } else {
+                    res[n + 1] = val;
+                }
+                flag = (val == 9 && flag);
+                n--;
+            }
+            res[0] = flag ? 1 : 0;
+            return flag ? Arrays.copyOfRange(res, 0, res.length) : Arrays.copyOfRange(res, 1, res.length);
         }
+
     }
 //leetcode submit region end(Prohibit modification and deletion)
 
